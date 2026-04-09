@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://finwisebackend.us-east-2.elasticbeanstalk.com/api/:path*"
+    }
+  ]
+}

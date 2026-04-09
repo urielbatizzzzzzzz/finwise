@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+/* Dark mode via .dark class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─── Design Tokens ──────────────────────────────────────── */
+@theme {
+  /* No se necesitan tantas variables customizadas, usamos la paleta de Tailwind. */
+  /* Brand colors specific for FinWise */
+  --color-finwise-brand-teal: #006064;
+  --color-finwise-dark-bg: #0A1121;
+}
+
+/* ─── CSS Variables driven by dark class (used in SVG/JS) ── */
+:root {
+  --text-primary: #111827;
+  --text-muted:   #4B5563;
+  --surface:      #FFFFFF;
+  --border-color: #F3F4F6;
+  
+  /* Score severity */
+  --score-critical: #ef4444;
+  --score-warning:  #f59e0b;
+  --score-fair:     #3b82f6;
+  --score-great:    #006064;
+}
+
+.dark {
+  --text-primary: #F1F5F9;
+  --text-muted:   #94A3B8;
+  --surface:      #111827;
+  --border-color: #374151;
+
+  /* Score severity */
+  --score-critical: #f87171;
+  --score-warning:  #fbbf24;
+  --score-fair:     #60a5fa;
+  --score-great:    #4FC3F7;
+}
+
+/* ─── Base ───────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply bg-white dark:bg-finwise-dark-bg text-gray-900 dark:text-gray-100;
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+  }
+}
+
+/* ─── Range slider ───────────────────────────────────────── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: #E2E8F0;
+  outline: none;
+  cursor: pointer;
+}
+.dark input[type="range"] { background: #374151; }
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #000000;
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(0,0,0,.12);
+  transition: box-shadow 0.2s;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 0 7px rgba(0,0,0,.15);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #000000;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 0 4px rgba(0,0,0,.12);
+}
+
+/* ─── Animations ─────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-brand {
+  0%,100% { box-shadow: 0 0 0 0   rgba(0,0,0,.25); }
+  50%      { box-shadow: 0 0 0 14px rgba(0,0,0,0); }
+}
+
+.animate-fade-in-up  { animation: fadeInUp  0.55s ease-out both; }
+.animate-fade-in     { animation: fadeIn    0.4s  ease-out both; }
+.animate-pulse-brand { animation: pulse-brand 2.2s infinite; }
+
+.delay-100 { animation-delay: .10s; }
+.delay-200 { animation-delay: .20s; }
+.delay-300 { animation-delay: .30s; }
+.delay-400 { animation-delay: .40s; }
+
+/* ─── Indeterminate loading bar ─────────────────────────────── */
+@keyframes indeterminate {
+  0%   { transform: translateX(-100%); width: 40%; }
+  50%  { transform: translateX(100%);  width: 60%; }
+  100% { transform: translateX(300%);  width: 40%; }
+}
+
+/* ─── Glassmorphism card ─────────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.dark .glass-card {
+  background: rgba(17, 24, 39, 0.5);
+  border-color: rgba(55, 65, 81, 0.3);
+}
+
+/* ─── Checkbox accent override ──────────────────────────────── */
+input[type="checkbox"] {
+  accent-color: #0D9488;
+}
+
+/* ─── Line clamp utility ────────────────────────────────────── */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── No scrollbar (mobile nav) ─────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
